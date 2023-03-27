@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-weight: 300;
+    font-size: 1rem;
+    @apply bg-gray-800 text-white;
+
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin-bottom: .5rem;
+    letter-spacing: -.05em;
+  }
+
+  h1 {
+    font-size: 3em;
+  }
+
+  h2 {
+    font-size: 2.5em;
+  }
+
+  h3 {
+    font-size: 2em;
+  }
+
+  h4 {
+    font-weight: 700;
+    font-size: 1.5em;
+  }
+
+  h5,
+  h6 {
+    font-size: 1em;
+  }
+
+  h5 {
+    font-weight: 700;
+  }
+
+  p {
+    margin-bottom: 1em;
+  }
+
+  button:disabled {
+    @apply bg-gray-700 text-gray-500;
+  }
+
+
+}

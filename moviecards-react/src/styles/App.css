@@ -1,0 +1,17 @@
+.header .logo {
+  max-width: 2rem;
+}
+
+.main-nav .main-nav-link {
+  color: #fc0;
+  font-weight: bold;
+  @apply py-2 px-4 mr-2 rounded-md;
+}
+
+.main-nav .main-nav-link:hover {
+  @apply bg-gray-800;
+}
+
+.main-nav .main-nav-link.active {
+  @apply text-white bg-gray-800;
+}
