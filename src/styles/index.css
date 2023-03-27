@@ -4,10 +4,9 @@
 
 @layer base {
   body {
-    font-weight: 300;
+    font-weight: 500;
     font-size: 1rem;
-    @apply bg-gray-800 text-white;
-
+    @apply bg-dark-800 text-light-400;
   }
 
   img {
@@ -27,6 +26,7 @@
 
   h1 {
     font-size: 3em;
+    font-weight: 700;
   }
 
   h2 {
@@ -55,8 +55,31 @@
     margin-bottom: 1em;
   }
 
+  .button,
+  button {
+    @apply bg-secondary text-light-100 font-bold py-2 px-4 rounded outline-none;
+  }
+
+  .button:hover,
+  button:hover,
+  .button:hover,
+  button:focus {
+    @apply bg-secondary-600 drop-shadow-lg;
+  }
+
+  .button.disabled,
   button:disabled {
-    @apply bg-gray-700 text-gray-500;
+    @apply bg-dark text-dark-400;
+  }
+
+  label {
+    font-weight: 500;
+  }
+
+  input[type=email],
+  input[type=text],
+  input[type=password] {
+    @apply text-dark appearance-none border rounded;
   }
 
 
