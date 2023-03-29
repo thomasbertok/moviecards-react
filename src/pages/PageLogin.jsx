@@ -3,22 +3,14 @@ import AuthContext from '../modules/AuthContext'
 import { useNavigate, redirect, Navigate } from 'react-router-dom'
 import { firebaseSignIn } from '../firebase'
 
+import { MdLogin } from 'react-icons/md'
+
 const PageLogin = () => {
 
     const user = useContext(AuthContext)
-    //console.log('>>> Login page: ', user.user)
+    console.log('>>> Login page: ', user)
 
     const navigate = useNavigate()
-
-    useEffect(() => {
-        if (user.user !== undefined) {
-            console.log('NOT UNDEF \n', user.user)
-        } else {
-            console.log('UNDEF \n', user.user)
-        }
-
-    }, [user])
-
 
     const [canSubmit, setCanSubmit] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -152,7 +144,7 @@ const PageLogin = () => {
                                 className="bg-secondary"
                                 disabled={(canSubmit) ? "" : "disabled"}
                                 type="submit"
-                            >Sign In</button>
+                            >Sign In <MdLogin /></button>
                             {/* <a className="inline-block align-baseline text-sm text-yellow-500 hover:text-yellow-300" href="#">Forgot Password?</a> */}
                         </div>
                     </form>

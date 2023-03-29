@@ -1,7 +1,4 @@
 import { initializeApp } from 'firebase/app'
-import { getFirestore } from '@firebase/firestore'
-import { redirect } from 'react-router-dom';
-
 
 import {
     getAuth,
@@ -22,7 +19,6 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig)
 export const auth = getAuth()
-// export const firestore = getFirestore(firebaseApp)
 
 
 // sign in with firebase
@@ -30,8 +26,9 @@ export const firebaseSignIn = async (email, password) => {
     try {
         const userCredentials = await signInWithEmailAndPassword(auth, email, password)
         const user = userCredentials.user
-        console.log('>>> User data: ', user)
+        console.log('>>> Firebase: Successful signin. \nUser data: ', user)
         return true
+
     } catch (error) {
         console.error(error.message)
         return { error: error.message }
@@ -41,15 +38,15 @@ export const firebaseSignIn = async (email, password) => {
 
 // sign out with firebase
 export const firebaseSignOut = async () => {
-
     console.log('>>> Firebase Sign Out...')
+
     try {
         // firebase sign out
         await signOut(auth)
-        console.log('>>> Signed out. User is:', auth.currentUser)
+        console.log('>>> Successful signout. \n User is:', auth.currentUser)
 
-        // react router redirect
-        window.location = '/'
+        // after logout we go back to login page
+        window.location.replace('/login')
 
     } catch (error) {
         console.error(error.message)
