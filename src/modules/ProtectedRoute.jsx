@@ -7,7 +7,7 @@ const ProtectedRoute = ({ children }) => {
     // get user context
     const user = useContext(AuthContext)
 
-    console.log('>>> Protected Route. User: ', user)
+    // console.log('>>> Protected Route. User: ', user)
 
     // if user object user is null, go to login page
     if (user.user === null) {

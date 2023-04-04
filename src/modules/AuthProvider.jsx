@@ -1,6 +1,5 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { useState, useEffect } from "react"
-import { Navigate } from "react-router-dom"
 import AuthContext from "./AuthContext"
 
 export const AuthProvider = ({ children }) => {
@@ -12,13 +11,11 @@ export const AuthProvider = ({ children }) => {
     // when authentication status changes... 
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
-            console.log('>>> onAuthChange | user is: ', user)
+            // console.log('>>> onAuthChange | user is: ', user)
             // setting the state to pass to authcontext
             setUser(user)
         })
     }, [])
-
-    console.log('>>> usr outside effect in authprovider: ', user)
 
     // the whole app runs inside this component
     return (

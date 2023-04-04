@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app'
+import { getDatabase } from 'firebase/database'
 
 import {
     getAuth,
@@ -18,8 +19,11 @@ const firebaseConfig = {
 }
 
 const firebaseApp = initializeApp(firebaseConfig)
-export const auth = getAuth()
 
+// the DB 
+export const database = getDatabase(firebaseApp)
+
+export const auth = getAuth()
 
 // sign in with firebase
 export const firebaseSignIn = async (email, password) => {

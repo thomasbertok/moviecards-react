@@ -1,12 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom'
 import AuthContext from '../modules/AuthContext';
 import { firebaseSignOut } from '../firebase'
 
 import logo from '../assets/logo.png'
 import { MdLogout } from 'react-icons/md'
+import MovieSearch from '../modules/MovieSearch';
+import MovieSearchResults from '../modules/MovieSearchResults';
 
 const Header = () => {
+
+    const [searchResults, setSearchResults] = useState([])
 
     const userObj = useContext(AuthContext)
     const user = userObj.user
@@ -16,32 +20,40 @@ const Header = () => {
         await firebaseSignOut()
     }
 
+    useEffect(() => {
+        console.log('>>> search res in header ', searchResults);
+    }, [searchResults])
+
+
+    const selectMovie = (id) => {
+        console.log('>>> selected id: ', id)
+        setSearchResults([])
+    }
+
+
     return (
-        <header className="header sticky top-0">
-            <div className="flex items-center flex-wrap p-6 bg-gray-900">
-                <h1 className="mx-6 mr-auto">
+        <header className="header sticky top-0 z-50 drop-shadow-2xl">
+            <div className="flex items-center flex-wrap p-6 bg-dark">
+                <h1 className="mx-6 flex-none">
                     <NavLink to="/">
                         <img className='logo' src={logo} alt="Click to go to homepage | Movie Cards 2.0" />
                     </NavLink>
                 </h1>
 
-                {/* <nav className="main-nav mr-auto">
-                    <ul className='flex'>
-                        <li className="">
-                            <NavLink to="/" className="main-nav-link text-gray-100 text-bold">Home</NavLink>
-                        </li>
-                        <li className="">
-                            <NavLink to="/about" className="main-nav-link text-gray-100">About</NavLink>
-                        </li>
-                    </ul>
-                </nav> */}
+                <div className='flex-auto'>
+                    <MovieSearch setResult={setSearchResults} />
+                </div>
 
-                <div className="">
+                <div className='flex-none'>
                     <Link to='/profile' className='mr-2'>{user.email}</Link>
-                    <button className="button" onClick={handleLogout}>
+                    <button className="button bg-secondary button-icon" title="Sign Out" onClick={handleLogout}>
                         <MdLogout />
                     </button>
                 </div>
+            </div>
+
+            <div className="movie-search-results">
+                <MovieSearchResults list={searchResults} select={selectMovie} />
             </div>
         </header>
     )

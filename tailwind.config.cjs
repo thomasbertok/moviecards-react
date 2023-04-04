@@ -4,6 +4,16 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
+    container: {
+      padding: {
+        DEFAULT: '1rem',
+        sm: '1rem',
+        lg: '2rem',
+        xl: '2rem',
+        '2xl': '0rem'
+      },
+      center: true
+    },
     sceens: {
       sm: '480px',
       md: '768px',

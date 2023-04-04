@@ -55,9 +55,13 @@
     margin-bottom: 1em;
   }
 
+  small {
+    font-size: .75em;
+  }
+
   .button,
   button {
-    @apply bg-secondary text-light-100 font-bold py-2 px-4 rounded outline-none;
+    @apply bg-secondary text-light-100 font-bold py-3 px-6 rounded-md outline-none;
   }
 
   .button:hover,
@@ -72,14 +76,23 @@
     @apply bg-dark text-dark-400;
   }
 
+  .button-icon {
+    @apply p-2 rounded-full;
+  }
+
+
   label {
     font-weight: 500;
+  }
+
+  input::placeholder {
+    @apply text-dark-200;
   }
 
   input[type=email],
   input[type=text],
   input[type=password] {
-    @apply text-dark appearance-none border rounded;
+    @apply bg-dark-800 text-dark-200 appearance-none border-none rounded shadow-inner;
   }
 
 

@@ -4,12 +4,12 @@ import { useNavigate, redirect, Navigate } from 'react-router-dom'
 import { firebaseSignIn } from '../firebase'
 
 import { MdLogin } from 'react-icons/md'
+import LoadingIcons from 'react-loading-icons'
+import pageLoginBackground from '../assets/bg-login.jpg'
 
 const PageLogin = () => {
 
-    const user = useContext(AuthContext)
-    console.log('>>> Login page: ', user)
-
+    // const user = useContext(AuthContext)
     const navigate = useNavigate()
 
     const [canSubmit, setCanSubmit] = useState(false)
@@ -20,9 +20,6 @@ const PageLogin = () => {
         email: '',
         password: ''
     })
-
-    // form return error state
-    const [formError, setFormError] = useState('')
 
 
     // validate email text
@@ -53,7 +50,7 @@ const PageLogin = () => {
             [ev.target.name]: ev.target.value
         }
 
-        // enable submit only when all inputs are correct
+        // enable submit only when all inputs are validated
         setCanSubmit(emailValidator(nextFormData.email) && passwordValidator(nextFormData.password))
 
         // save state
@@ -64,12 +61,21 @@ const PageLogin = () => {
     // error states text
     const [loginEmailErrorText, setLoginEmailError] = useState('')
     const [loginPasswordErrorText, setLoginPasswordError] = useState('')
+    const [generalError, setGeneralError] = useState('')
 
 
     // get readable error message from firebase login 
+    // TODO: make it array and reduce 
     const setErrorMessages = (error) => {
-        if (error.code === 'auth/invalid-email') setLoginEmailError(error.message);
-        if (error.code === 'auth/wrong-password') setLoginPasswordError(error.message);
+        if (error === 'Firebase: Error (auth/invalid-email)') {
+            setLoginEmailError('Invalid email')
+        } else if (error === 'Firebase: Error (auth/wrong-password).') {
+            setLoginPasswordError('Wrong Password ')
+        } else if (error === 'Firebase: Error (auth/user-not-found).') {
+            setGeneralError('User not found.')
+        } else {
+            setGeneralError('Error: ', error)
+        }
     }
 
 
@@ -84,14 +90,19 @@ const PageLogin = () => {
         // null out error messages
         setLoginEmailError('')
         setLoginPasswordError('')
+        setGeneralError('')
 
         try {
-            const userRes = await firebaseSignIn(formData.email, formData.password)
-            // set location to home page
-            navigate('/home')
+            const firebaseResult = await firebaseSignIn(formData.email, formData.password)
+
+            if (firebaseResult.error) {
+                setErrorMessages(firebaseResult.error)
+            } else {
+                navigate('/home')
+            }
 
         } catch (error) {
-            console.error('>>> Firebase Auth Error! ', error.code)
+            console.error('!!! Firebase Auth Error! ', error.code)
             setErrorMessages(error)
         }
 
@@ -100,10 +111,20 @@ const PageLogin = () => {
 
     return (
         <>
-            <div className="flex items-center justify-center h-screen flex-col">
+            <div
+                className='fixed z-0 w-screen h-screen blur-sm brightness-50 hue-rotate-60 bg-cover bg-no-repeat bg-center'
+                style={{ backgroundImage: `url(${pageLoginBackground})` }}>
+            </div>
+
+            <div className="relative z-10 flex items-center justify-center h-screen flex-col page page-login">
+
                 <h1 className="mb-6">Login</h1>
 
-                <div className="p-6 card bg-dark w-96 shadow-lg rounded-xl">
+                <div className="p-6 bg-dark w-96 shadow-lg rounded-xl">
+                    {generalError &&
+                        <p className="text-md text-center my-2 text-primary-400">{generalError}</p>
+                    }
+
                     <form onSubmit={handleFormSubmit}>
                         <div className="mb-8">
                             <label className="block text-sm mb-2" htmlFor="useremail">email</label>
@@ -113,39 +134,39 @@ const PageLogin = () => {
                                 name="email"
                                 type="email"
                                 disabled={loading}
-                                placeholder="Username"
+                                placeholder="your email account"
                                 value={formData.email}
                                 onChange={onUpdateField}
                             />
-                            <p className='text-xs mt-2 text-primary'>{loginEmailErrorText}</p>
+                            <p className='text-xs text-primary'>{loginEmailErrorText}</p>
                         </div>
 
                         <div className="mb-8">
-                            <label className="block text-sm mb-2" htmlFor="userpassword">Password</label>
+                            <label className="block text-sm mb-2" htmlFor="userpassword">password</label>
                             <input
-                                className="w-full py-3 px-3 mb-3 leading-tight"
+                                className="w-full py-3 px-3 mb-3 leading-normal"
                                 id="userpassword"
                                 name="password"
                                 type="password"
                                 disabled={loading}
-                                placeholder="***"
+                                placeholder="your password"
                                 value={formData.password}
                                 onChange={onUpdateField}
                             />
-                            <p className='text-xs mt-2 text-primary'>{loginPasswordErrorText}</p>
+                            <p className='text-xs text-primary'>{loginPasswordErrorText}</p>
                         </div>
 
-                        {loading &&
-                            <div className='mb-8 text-center'>Loading...</div>
-                        }
-
-                        <div className="flex items-center justify-end">
+                        <div className="mb-4">
                             <button
-                                className="bg-secondary"
+                                className={"bg-secondary flex items-center justify-center w-full" + (loading ? " btn-loading" : " btn-normal")}
                                 disabled={(canSubmit) ? "" : "disabled"}
                                 type="submit"
-                            >Sign In <MdLogin /></button>
-                            {/* <a className="inline-block align-baseline text-sm text-yellow-500 hover:text-yellow-300" href="#">Forgot Password?</a> */}
+                            >
+                                <span className='mr-2'>
+                                    {loading ? (<LoadingIcons.Oval strokeWidth={8} height={'1em'} />) : (<MdLogin />)}
+                                </span>
+                                <span>Sign In</span>
+                            </button>
                         </div>
                     </form>
                 </div>
