@@ -87,15 +87,18 @@ const PageHome = () => {
         })
     }, [userId])
 
+
     const closeModal = () => {
         setModalVisible(false)
         setMovieModalData({})
     }
 
+
     const showModal = (movie) => {
         setMovieModalData(movie)
         setModalVisible(true)
     }
+
 
     return (
         <div className={'root static z-0 ' + (modalVisible ? 'modal-visible' : '')}>
