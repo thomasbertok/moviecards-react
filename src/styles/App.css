@@ -30,7 +30,7 @@
 }
 
 .card:hover .card-body {
-  @apply bg-dark/80;
+  @apply bg-dark-900/90;
   display: block;
 }
 

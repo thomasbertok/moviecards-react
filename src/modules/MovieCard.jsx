@@ -14,7 +14,7 @@ const MovieCard = (props) => {
             onClick={() => { props.showDetails(props.movie) }}
         >
             <div className="card-body">
-                <h4>{Title}</h4>
+                <h4 className="font-medium leading-none">{Title}</h4>
                 <p>{Genre}</p>
                 <p>{Year}</p>
                 <p><strong>Director:</strong><br />{Director}</p>

@@ -1,15 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
 import AuthContext from '../modules/AuthContext'
-import { useNavigate, redirect, Navigate, NavLink } from 'react-router-dom'
-import { firebaseSignIn } from '../firebase'
+import { useNavigate, redirect, Navigate } from 'react-router-dom'
+import { firebaseSignUp } from '../firebase'
 
 import { MdLogin } from 'react-icons/md'
 import LoadingIcons from 'react-loading-icons'
 import pageLoginBackground from '../assets/bg-login.jpg'
 
-const PageLogin = () => {
+const PageRegister = () => {
 
-    // const user = useContext(AuthContext)
     const navigate = useNavigate()
 
     const [canSubmit, setCanSubmit] = useState(false)
@@ -18,7 +17,8 @@ const PageLogin = () => {
     // form data in an object
     const [formData, setFormData] = useState({
         email: '',
-        password: ''
+        password: '',
+        username: ''
     })
 
 
@@ -59,8 +59,9 @@ const PageLogin = () => {
 
 
     // error states text
-    const [loginEmailErrorText, setLoginEmailError] = useState('')
-    const [loginPasswordErrorText, setLoginPasswordError] = useState('')
+    const [signupEmailErrorText, setSignupEmailError] = useState('')
+    const [signupPasswordErrorText, setSignupPasswordError] = useState('')
+    const [signupUsernameErrorText, setSignupUsernameErrorText] = useState('')
     const [generalError, setGeneralError] = useState('')
 
 
@@ -79,7 +80,7 @@ const PageLogin = () => {
     }
 
 
-    // submit form, handle login 
+    // submit form, handle sign up 
     const handleFormSubmit = async (e) => {
         // stop autoreload
         e.preventDefault()
@@ -88,12 +89,12 @@ const PageLogin = () => {
         setLoading(true)
 
         // null out error messages
-        setLoginEmailError('')
-        setLoginPasswordError('')
+        setSignupEmailError('')
+        setSignupPasswordError('')
         setGeneralError('')
 
         try {
-            const firebaseResult = await firebaseSignIn(formData.email, formData.password)
+            const firebaseResult = await firebaseSignUp(formData.email, formData.password, formData.username)
 
             if (firebaseResult.error) {
                 setErrorMessages(firebaseResult.error)
@@ -112,12 +113,12 @@ const PageLogin = () => {
     return (
         <>
             <div
-                className='fixed z-0 w-screen h-screen blur-sm brightness-50 hue-rotate-60 bg-cover bg-no-repeat bg-center'
+                className='fixed z-0 w-screen h-screen blur-sm brightness-50 hue-rotate-90 bg-cover bg-no-repeat bg-center'
                 style={{ backgroundImage: `url(${pageLoginBackground})` }}></div>
 
             <div className="relative z-10 flex items-center justify-center h-screen flex-col page page-login">
 
-                <h1 className="mb-6">Login</h1>
+                <h1 className="mb-6">sign up</h1>
 
                 <div className="p-6 bg-dark w-96 shadow-large rounded-xl">
                     {generalError &&
@@ -137,7 +138,7 @@ const PageLogin = () => {
                                 value={formData.email}
                                 onChange={onUpdateField}
                             />
-                            <p className='text-xs text-primary'>{loginEmailErrorText}</p>
+                            <p className='text-xs text-primary'>{signupEmailErrorText}</p>
                         </div>
 
                         <div className="mb-8">
@@ -152,9 +153,23 @@ const PageLogin = () => {
                                 value={formData.password}
                                 onChange={onUpdateField}
                             />
-                            <p className='text-xs text-primary'>{loginPasswordErrorText}</p>
+                            <p className='text-xs text-primary'>{signupPasswordErrorText}</p>
                         </div>
 
+                        <div className="mb-8">
+                            <label className="block text-sm mb-2" htmlFor="userpassword">username</label>
+                            <input
+                                className="w-full py-3 px-3 mb-3 leading-normal"
+                                id="username"
+                                name="username"
+                                type="text"
+                                disabled={loading}
+                                placeholder="your username"
+                                value={formData.username}
+                                onChange={onUpdateField}
+                            />
+                            <p className='text-xs text-primary'>{signupUsernameErrorText}</p>
+                        </div>
                         <div className="mb-4">
                             <button
                                 className={"button button-primary flex items-center justify-center w-full" + (loading ? " btn-loading" : " btn-normal")}
@@ -164,14 +179,9 @@ const PageLogin = () => {
                                 <span className='mr-2'>
                                     {loading ? (<LoadingIcons.Oval strokeWidth={8} height={'1em'} />) : (<MdLogin />)}
                                 </span>
-                                <span>Sign In</span>
+                                <span>Sign Up</span>
                             </button>
                         </div>
-
-                        <div className="mt-6 mb-0 text-center text-sm text-light-800">
-                            <NavLink to="/register">sign up</NavLink>
-                        </div>
-
                     </form>
                 </div>
             </div>
@@ -179,4 +189,4 @@ const PageLogin = () => {
     )
 }
 
-export default PageLogin
+export default PageRegister

@@ -1,12 +1,15 @@
 import { initializeApp } from 'firebase/app'
 import { getDatabase } from 'firebase/database'
+import { getGravatar } from './helpers'
 
 import {
     getAuth,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
+    updateProfile,
     signOut,
-} from "firebase/auth";
+} from "firebase/auth"
+
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -32,6 +35,29 @@ export const firebaseSignIn = async (email, password) => {
         const user = userCredentials.user
         console.log('>>> Firebase: Successful signin. \nUser data: ', user)
         return true
+
+    } catch (error) {
+        console.error(error.message)
+        return { error: error.message }
+    }
+}
+
+// signup
+export const firebaseSignUp = async (email, password, username) => {
+    try {
+        const userCredentials = await createUserWithEmailAndPassword(auth, email, password)
+        const user = userCredentials.user
+
+        if (user) {
+            updateProfile(auth.currentUser, {
+                displayName: username,
+                photoURL: getGravatar(email)
+            })
+            console.log('>>> Firebase: Successful signUp. \nUser data: ', user)
+            return true
+        } else {
+            console.error('!!! User registration error')
+        }
 
     } catch (error) {
         console.error(error.message)

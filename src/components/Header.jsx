@@ -33,20 +33,25 @@ const Header = () => {
 
     return (
         <header className="header sticky top-0 z-50 drop-shadow-2xl">
-            <div className="flex items-center flex-wrap p-6 bg-dark">
-                <h1 className="mx-6 flex-none">
-                    <NavLink to="/">
-                        <img className='logo' src={logo} alt="Click to go to homepage | Movie Cards 2.0" />
-                    </NavLink>
-                </h1>
+            <div className="flex items-center flex-wrap p-6 bg-dark-800">
+                <NavLink to="/" className="mr-6 flex-none">
+                    <img className='logo' src={logo} alt="Click to go to homepage | Movie Cards 2.0" />
+                </NavLink>
 
                 <div className='flex-auto'>
                     <MovieSearch setResult={setSearchResults} />
                 </div>
 
-                <div className='flex-none'>
-                    <Link to='/profile' className='mr-2'>{user.email}</Link>
-                    <button className="button bg-secondary button-icon" title="Sign Out" onClick={handleLogout}>
+                <div className='flex-none flex items-center'>
+                    <NavLink to='/profile' className='mr-2 flex items-center'>
+                        {user.photoURL !== null &&
+                            <div className="rounded-full w-8 bg-light mr-2">
+                                <img src={user.photoURL} alt="" />
+                            </div>
+                        }
+                        {user.dispayName === null ? user.email : user.displayName}
+                    </NavLink>
+                    <button className="button button-icon" title="Sign Out" onClick={handleLogout}>
                         <MdLogout />
                     </button>
                 </div>

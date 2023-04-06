@@ -4,9 +4,11 @@
 
 @layer base {
   body {
-    font-weight: 500;
     font-size: 1rem;
-    @apply bg-dark-800 text-light-300;
+    font-weight: 300;
+    line-height: 170%;
+
+    @apply bg-dark text-light;
   }
 
   img {
@@ -20,39 +22,39 @@
   h4,
   h5,
   h6 {
-    margin-bottom: .5rem;
-    letter-spacing: -.05em;
+    font-weight: 100;
+    @apply text-light-100;
+    line-height: 1.25;
+    margin-bottom: 2rem;
+    letter-spacing: -.01em;
   }
 
   h1 {
-    font-size: 3em;
-    font-weight: 700;
+    font-size: 5rem;
   }
 
   h2 {
-    font-size: 2.5em;
+    font-size: 3.5rem;
   }
 
   h3 {
-    font-size: 2em;
+    font-size: 2.7rem;
   }
 
   h4 {
-    font-weight: 700;
-    font-size: 1.5em;
-  }
-
-  h5,
-  h6 {
-    font-size: 1em;
+    font-size: 2.125rem;
   }
 
   h5 {
-    font-weight: 700;
+    font-size: 1.5rem;
+  }
+
+  h6 {
+    font-size: 1.125em;
   }
 
   p {
-    margin-bottom: 1em;
+    margin-bottom: 2em;
   }
 
   small {
@@ -60,20 +62,41 @@
   }
 
   .button,
-  button {
-    @apply bg-secondary text-light-100 font-bold py-3 px-6 rounded-md outline-none;
+  button,
+  button[type=button],
+  button[type=submit],
+  button[type=reset] {
+    @apply bg-primary text-light font-bold py-3 px-6 rounded-md outline-none;
   }
 
-  .button:hover,
-  button:hover,
-  .button:hover,
-  button:focus {
-    @apply bg-secondary-600 drop-shadow-lg;
+  .button:hover:not([disabled]),
+  button:hover:not([disabled]),
+  button:focus:not([disabled]) {
+    @apply bg-primary-600 drop-shadow-lg;
   }
+
+  .button-primary {
+    @apply bg-primary text-light;
+
+  }
+
+  .button-primary:not([disabled]):hover {
+    @apply bg-primary-600;
+  }
+
+  .button-secondary {
+    @apply bg-secondary text-light;
+  }
+
+  .button-secondary:hover {
+    @apply bg-secondary-600 text-light;
+  }
+
 
   .button.disabled,
   button:disabled {
-    @apply bg-dark text-dark-400;
+    @apply text-dark-400 bg-dark-600;
+
   }
 
   .button-icon {
@@ -92,8 +115,10 @@
   input[type=email],
   input[type=text],
   input[type=password] {
-    @apply bg-dark-800 text-dark-200 appearance-none border-none rounded shadow-inner;
+    @apply bg-dark-400 appearance-none border-none rounded;
   }
 
-
+  input:focus {
+    @apply bg-dark-100 text-dark border;
+  }
 }
