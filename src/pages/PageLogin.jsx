@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import AuthContext from '../modules/AuthContext'
 import { useNavigate, redirect, Navigate, NavLink } from 'react-router-dom'
 import { firebaseSignIn } from '../firebase'
+import { emailValidator, passwordValidator } from '../helpers'
 
 import { MdLogin } from 'react-icons/md'
 import LoadingIcons from 'react-loading-icons'
@@ -20,26 +21,6 @@ const PageLogin = () => {
         email: '',
         password: ''
     })
-
-
-    // validate email text
-    const emailValidator = email => {
-        if (!email) {
-            return false;
-        } else if (!new RegExp(/\S+@\S+\.\S+/).test(email)) {
-            return false
-        }
-        return true
-    }
-
-
-    // maybe we complicate it later...
-    const passwordValidator = pass => {
-        if (!pass) {
-            return false
-        }
-        return true
-    }
 
 
     // set states when changing input fields
@@ -164,15 +145,14 @@ const PageLogin = () => {
                                 <span className='mr-2'>
                                     {loading ? (<LoadingIcons.Oval strokeWidth={8} height={'1em'} />) : (<MdLogin />)}
                                 </span>
-                                <span>Sign In</span>
+                                <span>sign in</span>
                             </button>
                         </div>
-
-                        <div className="mt-6 mb-0 text-center text-sm text-light-800">
-                            <NavLink to="/register">sign up</NavLink>
-                        </div>
-
                     </form>
+                </div>
+
+                <div className="mt-6 mb-0 text-center text-sm text-light-900 hover:text-light">
+                    <NavLink to="/register">sign up</NavLink>
                 </div>
             </div>
         </>

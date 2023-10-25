@@ -1,4 +1,5 @@
 import React from "react"
+import { HiDotsHorizontal } from 'react-icons/hi'
 
 const MovieCard = (props) => {
     const { Title, Poster, Year, Actors, Director, Genre, imdbID } = props.movie
@@ -13,14 +14,19 @@ const MovieCard = (props) => {
             style={{ backgroundImage: `url(${moviePoster})` }}
             onClick={() => { props.showDetails(props.movie) }}
         >
-            <div className="card-body">
-                <h4 className="font-medium leading-none">{Title}</h4>
+            <div className="card-body relative">
+                <h4 className="text-sm lg:text-md font-medium leading-none">{Title}</h4>
                 <p>{Genre}</p>
                 <p>{Year}</p>
-                <p><strong>Director:</strong><br />{Director}</p>
-                <p><strong>Actors:</strong><br />{Actors}</p>
+                <p><strong className="text-light-700 font-bold">Director:</strong><br />{Director}</p>
+                <p><strong className="text-light-700 font-bold">Actors:</strong><br />{Actors}</p>
+
+                <button className="absolute button button-icon bottom-3 right-3 bg-transparent">
+                    <HiDotsHorizontal size="24px" />
+                </button>
+
             </div>
-        </div>
+        </div >
     )
 }
 

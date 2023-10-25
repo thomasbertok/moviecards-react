@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
-import AuthContext from '../modules/AuthContext'
-import { useNavigate, redirect, Navigate } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useNavigate, NavLink } from 'react-router-dom'
 import { firebaseSignUp } from '../firebase'
+import { emailValidator, passwordValidator } from '../helpers'
 
 import { MdLogin } from 'react-icons/md'
 import LoadingIcons from 'react-loading-icons'
@@ -20,26 +20,6 @@ const PageRegister = () => {
         password: '',
         username: ''
     })
-
-
-    // validate email text
-    const emailValidator = email => {
-        if (!email) {
-            return false;
-        } else if (!new RegExp(/\S+@\S+\.\S+/).test(email)) {
-            return false
-        }
-        return true
-    }
-
-
-    // maybe we complicate it later...
-    const passwordValidator = pass => {
-        if (!pass) {
-            return false
-        }
-        return true
-    }
 
 
     // set states when changing input fields
@@ -69,9 +49,9 @@ const PageRegister = () => {
     // TODO: make it array and reduce 
     const setErrorMessages = (error) => {
         if (error === 'Firebase: Error (auth/invalid-email)') {
-            setLoginEmailError('Invalid email')
+            setSignupEmailError('Invalid email')
         } else if (error === 'Firebase: Error (auth/wrong-password).') {
-            setLoginPasswordError('Wrong Password ')
+            setSignupPasswordError('Wrong Password ')
         } else if (error === 'Firebase: Error (auth/user-not-found).') {
             setGeneralError('User not found.')
         } else {
@@ -179,10 +159,13 @@ const PageRegister = () => {
                                 <span className='mr-2'>
                                     {loading ? (<LoadingIcons.Oval strokeWidth={8} height={'1em'} />) : (<MdLogin />)}
                                 </span>
-                                <span>Sign Up</span>
+                                <span>sign up</span>
                             </button>
                         </div>
                     </form>
+                </div>
+                <div className="mt-6 mb-0 text-center text-sm text-light-900 hover:text-light">
+                    <NavLink to="/login">sign in</NavLink>
                 </div>
             </div>
         </>

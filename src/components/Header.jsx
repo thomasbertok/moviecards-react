@@ -8,6 +8,8 @@ import { MdLogout } from 'react-icons/md'
 import MovieSearch from '../modules/MovieSearch';
 import MovieSearchResults from '../modules/MovieSearchResults';
 
+import { Dropdown } from 'flowbite-react';
+
 const Header = () => {
 
     const [searchResults, setSearchResults] = useState([])
@@ -42,6 +44,25 @@ const Header = () => {
                     <MovieSearch setResult={setSearchResults} />
                 </div>
 
+                {/* <div>
+                    <Dropdown size="sm" label="Dropdown button">
+                        <Dropdown.Item>
+                            Dashboard
+                        </Dropdown.Item>
+                        <Dropdown.Item>
+                            Settings
+                        </Dropdown.Item>
+                        <Dropdown.Item>
+                            Earnings
+                        </Dropdown.Item>
+                        <Dropdown.Divider />
+                        <Dropdown.Item icon={MdLogout}>
+                            Logout
+                        </Dropdown.Item>
+                    </Dropdown>
+                </div> */}
+
+
                 <div className='flex-none flex items-center'>
                     <NavLink to='/profile' className='mr-2 flex items-center'>
                         {user.photoURL !== null &&
@@ -50,6 +71,7 @@ const Header = () => {
                             </div>
                         }
                         {user.dispayName === null ? user.email : user.displayName}
+
                     </NavLink>
                     <button className="button button-icon" title="Sign Out" onClick={handleLogout}>
                         <MdLogout />

@@ -18,8 +18,8 @@ const MoviesList = (props) => {
             }
 
             {movies.length > 0 &&
-                <div>
-                    <p>{movies.length} movies in the list</p>
+                <div className="flex justify-between items-center mb-8">
+                    <div>{movies.length} movies in the list</div>
                 </div>
             }
 

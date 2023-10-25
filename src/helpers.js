@@ -13,3 +13,22 @@ export const getGravatar = (emailToHash) => {
     // TODO: fallback
     return `https://www.gravatar.com/avatar/${emailToHash.hashCode().toString().toLowerCase()}?s=640&d=robohash`;
 }
+
+// validate email text
+export const emailValidator = email => {
+    if (!email) {
+        return false;
+    } else if (!new RegExp(/\S+@\S+\.\S+/).test(email)) {
+        return false
+    }
+    return true
+}
+
+
+// maybe we complicate it later...
+export const passwordValidator = pass => {
+    if (!pass) {
+        return false
+    }
+    return true
+}

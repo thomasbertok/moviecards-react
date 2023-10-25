@@ -54,7 +54,7 @@
   }
 
   p {
-    margin-bottom: 2em;
+    margin-bottom: 1em;
   }
 
   small {
@@ -121,4 +121,29 @@
   input:focus {
     @apply bg-dark-100 text-dark border;
   }
+
+  .badge {
+    @apply text-dark bg-secondary-600 rounded-md mr-1 px-2 font-medium text-sm;
+
+  }
+
+
+
+  .imdb-badge {
+    display: inline-block;
+    @apply text-dark;
+    background-color: #ffc600;
+    border-radius: 3px;
+    font-weight: bold;
+    line-height: 1;
+    padding-right: .4rem;
+  }
+
+  .imdb-badge img {
+    height: 1.25rem;
+    display: inline-block;
+  }
+
+  .imdb-badge span {}
+
 }
