@@ -1,2 +1,3 @@
-# moviecards-react
-moviecards project in react 2023
+# Moviecards in React
+
+Personal movie collection, made with React, Vite, Firebase 9 database, Authentication with Firebase, design with TailwindCSS and DaisyUI.
