@@ -1,37 +1,33 @@
 import React from "react";
 import { HiDotsHorizontal } from "react-icons/hi";
 import ImageNotFound from "@/assets/image-not-found.jpg";
+import useModalStore from "@/store/modal-store";
 
 const MovieCard = (props) => {
   const { Title, Poster, Year, Actors, Director, Genre, imdbID } = props.movie;
   let moviePoster = Poster;
+
+  const { setMovieModal } = useModalStore();
 
   // default the poster image
   if (Poster === "N/A") moviePoster = { ImageNotFound };
 
   return (
     <div
-      className="card rounded-md overflow-hidden relative w-full h-full"
-      style={{ backgroundImage: `url(${moviePoster})` }}
-      onClick={() => {
-        props.showDetails(props.movie);
-      }}>
-      <div className="card-body relative">
-        <h4 className="text-sm lg:text-md font-medium leading-none">{Title}</h4>
-        <p>{Genre}</p>
-        <p>{Year}</p>
-        <p>
-          <strong className="text-light-700 font-bold">Director:</strong>
-          <br />
-          {Director}
-        </p>
-        {/* <p>
-          <strong className="text-light-700 font-bold">Actors:</strong>
-          <br />
-          {Actors}
-        </p> */}
+      className="card flex flex-col gap-3 relative w-full h-full cursor-pointer"
+      onClick={() => setMovieModal(props.movie)}>
+      <div
+        className="card-poster hover:scale-105 transition-all "
+        style={{ backgroundImage: `url(${moviePoster})` }}></div>
 
-        <button className="absolute button button-icon bottom-3 right-3 bg-transparent">
+      <div className="card-body text-sm flex flex-col gap-2">
+        <h4 className="text-sm lg:text-md font-medium leading-none mb-0">{Title}</h4>
+        <p className="text-slate-400">
+          <span className="card-body-year">{Year}</span>
+          <span className="card-body-genre">{Genre}</span>
+        </p>
+
+        <button className="absolute button button-icon bottom-3 right-0 bg-transparent">
           <HiDotsHorizontal size="24px" />
         </button>
       </div>

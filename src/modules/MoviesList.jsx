@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
 import MovieCard from "./MovieCard";
 
-const MoviesList = ({ movies, showDetails }) => {
+const MoviesList = ({ movies }) => {
   return (
     <>
       {movies.length === 0 && <p>no movies in the database.</p>}
@@ -13,9 +12,9 @@ const MoviesList = ({ movies, showDetails }) => {
       )}
 
       {movies !== null && movies.length !== 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-8 gap-10">
           {movies.map((item, index) => (
-            <MovieCard movie={item} key={index} showDetails={showDetails} />
+            <MovieCard movie={item} key={index} />
           ))}
         </div>
       )}

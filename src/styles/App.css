@@ -9,28 +9,36 @@
 }
 
 .main-nav .main-nav-link:hover {
-  @apply bg-gray-800;
+  /* @apply bg-gray-800; */
 }
 
 .main-nav .main-nav-link.active {
   @apply text-white bg-gray-800;
 }
 
-.card {
+.main-container {
+}
+
+.card-poster {
   aspect-ratio: 9/14;
   background-size: cover;
   background-position: center;
-
+  box-shadow: 0 25px 45px -35px rgba(0, 0, 0, 1);
 }
 
-.card .card-body {
-  cursor: pointer;
-  @apply p-4 text-sm absolute z-20 w-full h-full hidden;
-  top: 0;
+.card-body-year {
+  display: block;
 }
 
-.card:hover .card-body {
-  @apply bg-dark-900/90;
+.card-body-genre {
+  display: none;
+}
+
+.card:hover .card-body-year {
+  display: none;
+}
+
+.card:hover .card-body-genre {
   display: block;
 }
 
@@ -49,9 +57,5 @@
   display: block;
 }
 
-.search-input-input:disabled {}
-
-.root.modal-visible .header,
-.root.modal-visible .main-container {
-  filter: blur(10px);
+.search-input-input:disabled {
 }
