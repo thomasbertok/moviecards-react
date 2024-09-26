@@ -1,21 +1,16 @@
-import React, { useContext, useEffect, useState } from "react";
-import AuthContext from "../modules/AuthContext";
-import { useNavigate, redirect, Navigate, NavLink } from "react-router-dom";
-import { firebaseSignIn } from "../firebase";
+import React, { useState } from "react";
+import { useNavigate, NavLink } from "react-router-dom";
+import { firebaseSignIn } from "@/firebase";
 import { emailValidator, passwordValidator } from "../helpers";
-
 import { MdLogin } from "react-icons/md";
 import LoadingIcons from "react-loading-icons";
-import pageLoginBackground from "../assets/bg-login.jpg";
 
 const PageLogin = () => {
-  // const user = useContext(AuthContext)
   const navigate = useNavigate();
-
   const [canSubmit, setCanSubmit] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // form data in an object
+  // form data in a state
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -56,47 +51,36 @@ const PageLogin = () => {
   };
 
   // submit form, handle login
-  const handleFormSubmit = async (e) => {
+  const handleLoginFormSubmit = async (e) => {
     // stop autoreload
     e.preventDefault();
 
     // loading state / overlay or smth
     setLoading(true);
-
-    // null out error messages
+    // reset error messages
     setLoginEmailError("");
     setLoginPasswordError("");
     setGeneralError("");
 
-    try {
-      const firebaseResult = await firebaseSignIn(formData.email, formData.password);
+    const loginResult = await firebaseSignIn(formData);
 
-      if (firebaseResult.error) {
-        setErrorMessages(firebaseResult.error);
-      } else {
-        navigate("/home");
-      }
-    } catch (error) {
-      console.error("!!! Firebase Auth Error! ", error.code);
-      setErrorMessages(error);
+    if (loginResult.error) {
+      setErrorMessages(loginResult.error);
+      setLoading(false);
+    } else {
+      navigate("/home");
     }
-
-    setLoading(false);
   };
 
   return (
     <>
-      <div
-        className="fixed z-0 w-screen h-screen blur-sm brightness-50 hue-rotate-60 bg-cover bg-no-repeat bg-center"
-        style={{ backgroundImage: `url(${pageLoginBackground})` }}></div>
-
       <div className="relative z-10 flex items-center justify-center h-screen flex-col page page-login">
-        <h1 className="mb-6">Login</h1>
+        <h1 className="mb-6">login</h1>
 
-        <div className="p-6 bg-dark w-96 shadow-large rounded-xl">
+        <div className="p-8 bg-blue-900 w-10/12 max-w-[400px] shadow-2xl">
           {generalError && <p className="text-md text-center my-2 text-primary-400">{generalError}</p>}
 
-          <form onSubmit={handleFormSubmit}>
+          <form onSubmit={handleLoginFormSubmit}>
             <div className="mb-8">
               <label className="block text-sm mb-2" htmlFor="useremail">
                 email
@@ -111,7 +95,7 @@ const PageLogin = () => {
                 value={formData.email}
                 onChange={onUpdateField}
               />
-              <p className="text-xs text-primary">{loginEmailErrorText}</p>
+              <p className="text-xs text-primary-400">{loginEmailErrorText}</p>
             </div>
 
             <div className="mb-8">
@@ -128,14 +112,13 @@ const PageLogin = () => {
                 value={formData.password}
                 onChange={onUpdateField}
               />
-              <p className="text-xs text-primary">{loginPasswordErrorText}</p>
+              <p className="text-xs text-primary-400">{loginPasswordErrorText}</p>
             </div>
 
             <div className="mb-4">
               <button
                 className={
-                  "button button-primary flex items-center justify-center w-full" +
-                  (loading ? " btn-loading" : " btn-normal")
+                  "button flex items-center justify-center w-full" + (loading ? " btn-loading" : " btn-normal")
                 }
                 disabled={canSubmit ? "" : "disabled"}
                 type="submit">
@@ -148,7 +131,7 @@ const PageLogin = () => {
           </form>
         </div>
 
-        <div className="mt-6 mb-0 text-center text-sm text-light-900 hover:text-light">
+        <div className="mt-6 mb-0 text-center text-sm text-sand-600 hover:text-sand-400">
           <NavLink to="/register">sign up</NavLink>
         </div>
       </div>

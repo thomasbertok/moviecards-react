@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
-import AuthContext from "../modules/AuthContext";
+import AuthContext from "@/context/auth/AuthContext";
 import { firebaseSignOut } from "../firebase";
 
 import logo from "../assets/logo.png";
@@ -13,9 +13,7 @@ import { Dropdown } from "flowbite-react";
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
-
-  const userObj = useContext(AuthContext);
-  const user = userObj.user;
+  const { user } = useContext(AuthContext);
 
   // log out with firebase
   const handleLogout = async () => {
@@ -23,7 +21,7 @@ const Header = () => {
   };
 
   useEffect(() => {
-    console.log(">>> search res in header ", searchResults);
+    //console.log(">>> search res in header ", searchResults);
   }, [searchResults]);
 
   const selectMovie = (id) => {
@@ -42,6 +40,10 @@ const Header = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  if (!user) {
+    return null;
+  }
 
   return (
     <header className={`header sticky top-0 z-50 ${isScrolled ? "scrolled" : ""}`}>
@@ -66,6 +68,10 @@ const Header = () => {
 
         <div className="flex-none flex items-center">
           <NavLink to="/profile" className="mr-2 flex items-center">
+            {user.email}
+          </NavLink>
+
+          <NavLink to="/profile" className="mr-2 flex items-center">
             {user.photoURL !== null && (
               <div className="rounded-full w-8 bg-light mr-2">
                 <img src={user.photoURL} alt="" />
@@ -73,6 +79,7 @@ const Header = () => {
             )}
             {user.dispayName === null ? user.email : user.displayName}
           </NavLink>
+
           <button className="button button-icon" title="Sign Out" onClick={handleLogout}>
             <MdLogout />
           </button>

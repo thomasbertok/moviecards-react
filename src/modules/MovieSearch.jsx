@@ -76,8 +76,40 @@ const MovieSearch = (props) => {
   };
 
   return (
-    <div className="search-input flex items-center justify-center">
-      <input
+    <div className="search-input flex items-center justify-center max-w-96">
+      <div className="relative flex items-center justify-between rounded-[20px] bg-blue-600 w-full">
+        <input
+          type="search"
+          className="block text-sand-100 bg-transparent border-none pl-6 w-full focus:bg-transparent focus:outline-none"
+          placeholder="Search Movies..."
+          name="search-input"
+          id="search-input"
+          value={searchQuery}
+          onFocus={handleFocus}
+          onChange={handleChangeSearchValue}
+          onKeyUp={handleSearch}
+          disabled={searching ? "disabled" : ""}
+          tabIndex={1}
+        />
+        <button className="w-[80px] h-[40px] rounded-[20px] flex items-center justify-center">
+          <svg
+            className="w-5 h-5 text-sand-400"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 20 20">
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="3"
+              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+            />
+          </svg>
+        </button>
+      </div>
+
+      {/* <input
         className="search-input-input disabled:bg-dark rounded-[20px] max-w-[640px] w-full"
         type="text"
         name="search-input"
@@ -87,7 +119,7 @@ const MovieSearch = (props) => {
         onChange={handleChangeSearchValue}
         onKeyUp={handleSearch}
         disabled={searching ? "disabled" : ""}
-      />
+      /> */}
     </div>
   );
 };

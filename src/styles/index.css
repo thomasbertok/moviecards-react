@@ -14,6 +14,7 @@
     line-height: 170%;
     @apply text-light;
     background-image: radial-gradient(farthest-corner at 0% 100%, #1b2834 10%, #3e5c71 100%);
+    background-attachment: fixed;
   }
 
   #root {
@@ -81,7 +82,7 @@
   .button:hover:not([disabled]),
   button:hover:not([disabled]),
   button:focus:not([disabled]) {
-    @apply bg-primary-600 drop-shadow-lg;
+    /* @apply bg-primary-600 drop-shadow-lg; */
   }
 
   .button-primary {
@@ -114,36 +115,57 @@
   }
 
   input::placeholder {
-    @apply text-dark-200;
+    @apply text-blue-300;
   }
 
   input[type="email"],
   input[type="text"],
   input[type="password"] {
-    @apply bg-slate-500 appearance-none border-none;
+    @apply bg-blue appearance-none border-none;
+  }
+  input[type="email"]:focus,
+  input[type="text"]:focus,
+  input[type="password"]:focus {
+    @apply bg-blue-300 text-blue-800;
   }
 
-  input:focus {
-    @apply bg-slate-400 text-dark border;
+  /*
+  TODO: change autofill color to tailwind
+  */
+  /* Change the white to any color */
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #517894 inset !important;
+  }
+
+  /*
+  TODO: change autofill color to tailwind
+  */
+  /*Change text in autofill textbox*/
+  input:-webkit-autofill {
+    -webkit-text-fill-color: #0e151a !important;
   }
 
   .badge {
-    @apply text-dark bg-secondary-600 rounded-md mr-1 px-2 font-medium text-sm;
+    @apply text-blue-900 bg-sand rounded-md py-0.5 px-2 font-medium text-sm;
   }
 
   .imdb-badge {
-    display: inline-block;
-    @apply text-dark;
+    align-self: flex-start;
     background-color: #ffc600;
     border-radius: 3px;
     font-weight: bold;
-    line-height: 1;
+    line-height: 1.3rem;
     padding-right: 0.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .imdb-badge img {
     height: 1.25rem;
-    display: inline-block;
   }
 
   .imdb-badge span {

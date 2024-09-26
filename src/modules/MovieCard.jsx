@@ -4,11 +4,10 @@ import ImageNotFound from "@/assets/image-not-found.jpg";
 import useModalStore from "@/store/modal-store";
 
 const MovieCard = (props) => {
-  const { Title, Poster, Year, Actors, Director, Genre, imdbID } = props.movie;
-  let moviePoster = Poster;
-
+  const { Title, Poster, Year, Genre, imdbID } = props.movie;
   const { setMovieModal } = useModalStore();
 
+  let moviePoster = Poster;
   // default the poster image
   if (Poster === "N/A") moviePoster = { ImageNotFound };
 
@@ -22,7 +21,7 @@ const MovieCard = (props) => {
 
       <div className="card-body text-sm flex flex-col gap-2">
         <h4 className="text-sm lg:text-md font-medium leading-none mb-0">{Title}</h4>
-        <p className="text-slate-400">
+        <p className="text-blue-300">
           <span className="card-body-year">{Year}</span>
           <span className="card-body-genre">{Genre}</span>
         </p>
