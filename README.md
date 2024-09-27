@@ -1,6 +1,6 @@
 # Moviecards in React
 
-Personal movie collection, made with React, Vite, Firebase 9 database, Authentication with Firebase, design with TailwindCSS and DaisyUI.
+Personal movie collection, created with React~18, Vite, stored and authenticated with Firebase 9, frontend design with TailwindCSS and DaisyUI.
 
 **work in progress**
 
