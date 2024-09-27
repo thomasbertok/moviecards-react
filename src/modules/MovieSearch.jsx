@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { MdNotificationImportant } from "react-icons/md";
+import { MdNotificationImportant, MdOutlineSearch } from "react-icons/md";
+import { fetchOMDB } from "@/services/fetchOMDB";
 
-const MovieSearch = (props) => {
+const MovieSearch = ({ setResult }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searching, setSearching] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
@@ -33,7 +34,7 @@ const MovieSearch = (props) => {
     // not to bother omdb too much...
     if (ev.key === "Enter" && ev.target.value.length >= 2) {
       // place the search
-      fetchOMDB(ev.target.value);
+      fetchSearchedOMDBMovies(ev.target.value);
     }
     // close the search process
     if (ev.key === "Escape") {
@@ -43,36 +44,52 @@ const MovieSearch = (props) => {
     }
   };
 
-  const fetchOMDB = async (queryString) => {
-    setSearching(true);
-    setMessage("");
+  // const fetchOMDB = async (queryString) => {
+  //   setSearching(true);
+  //   setMessage("");
 
-    const query = `${omdb.api_url}?&apikey=${omdb.api_key}&plot=short&type=movie&s=${queryString}`;
-    const response = await fetch(query);
+  //   const query = `${omdb.api_url}?&apikey=${omdb.api_key}&plot=short&type=movie&s=${queryString}`;
+  //   const response = await fetch(query);
 
-    if (response.ok) {
-      const movies = await response.json();
+  //   if (response.ok) {
+  //     const movies = await response.json();
 
-      if (movies.Response) {
-        // there are movies in the result
-        setSearchResult(movies.Search);
-        props.setResult(movies.Search);
-        setSearching(false);
+  //     if (movies.Response) {
+  //       // there are movies in the result
+  //       setSearchResult(movies.Search);
+  //       props.setResult(movies.Search);
+  //       setSearching(false);
 
-        // show the results
-        setResultsBlockVisible(true);
-      } else {
-        // no movies, result correct
-        setSearching(false);
-        setSearchQuery("");
-        setSearchResult([]);
-        setMessage("No results.");
-      }
-    } else {
-      throw new Error("response error");
-      console.error("OMDB says: Too bad! You gotta die!");
-      setSearching(false);
-    }
+  //       // show the results
+  //       setResultsBlockVisible(true);
+  //     } else {
+  //       // no movies, result correct
+  //       setSearching(false);
+  //       setSearchQuery("");
+  //       setSearchResult([]);
+  //       setMessage("No results.");
+  //     }
+  //   } else {
+  //     throw new Error("response error");
+  //     console.error("OMDB says: Too bad! You gotta die!");
+  //     setSearching(false);
+  //   }
+  // };
+
+  const fetchSearchedOMDBMovies = async (query) => {
+    // setSearching(true);
+    // setMessage("");
+    const result = await fetchOMDB(query);
+    // if (result.Response === "True") {
+    //   setSearchResult(result.Search);
+    //   setResult(result.Search);
+    //   setSearching(false);
+    // } else {
+    //   setSearching(false);
+    //   setSearchQuery("");
+    //   setSearchResult([]);
+    //   setMessage("No results.");
+    // }
   };
 
   return (
@@ -80,7 +97,7 @@ const MovieSearch = (props) => {
       <div className="relative flex items-center justify-between rounded-[20px] bg-blue-600 w-full">
         <input
           type="search"
-          className="block text-sand-100 bg-transparent border-none pl-6 w-full focus:bg-transparent focus:outline-none"
+          className="block text-sand-100 bg-transparent border-none ml-6 w-full focus:bg-blue-300 focus:outline-none"
           placeholder="Search Movies..."
           name="search-input"
           id="search-input"
@@ -91,26 +108,13 @@ const MovieSearch = (props) => {
           disabled={searching ? "disabled" : ""}
           tabIndex={1}
         />
-        <button className="w-[80px] h-[40px] rounded-[20px] flex items-center justify-center">
-          <svg
-            className="w-5 h-5 text-sand-400"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 20 20">
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="3"
-              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-            />
-          </svg>
+        <button className="button-icon button-primary w-[40px] h-[40px]">
+          <MdOutlineSearch size={22} />
         </button>
       </div>
 
       {/* <input
-        className="search-input-input disabled:bg-dark rounded-[20px] max-w-[640px] w-full"
+        className="search-input-input disabled:bg-blue rounded-[20px] max-w-[640px] w-full"
         type="text"
         name="search-input"
         id="search-input"

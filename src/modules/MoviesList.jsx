@@ -1,23 +1,36 @@
-import MovieCard from "./MovieCard";
+import { useContext, useEffect, useState } from "react";
+import AuthContext from "@/context/auth/AuthContext";
+import MovieGrid from "@/components/MovieGrid";
+import useMovieStore from "@/store/movie-store";
+import LoadingIcons from "react-loading-icons";
 
-const MoviesList = ({ movies }) => {
+const MoviesList = () => {
+  // get user context
+  const { user } = useContext(AuthContext);
+  // loading state
+  const [loading, setLoading] = useState(false);
+  // get movies from firebase OR local storage
+  const { movies, setMovies } = useMovieStore();
+
+  useEffect(() => {
+    setLoading(true);
+    if (user) setMovies(user.uid);
+  }, [user]);
+
+  useEffect(() => {
+    if (movies) setLoading(false);
+  }, [movies]);
+
   return (
     <>
-      {movies !== null && movies.length === 0 && <p>no movies in the database.</p>}
-
-      {movies.length > 0 && (
-        <div className="flex justify-between items-center mb-8">
-          <div>{movies.length} movies in the list</div>
+      {loading && (
+        <div className="flex flex-col h-full items-center justify-center gap-4">
+          <LoadingIcons.Oval strokeWidth={4} height={"4em"} width={"4em"} />
+          <div>Loading movies...</div>
         </div>
       )}
-
-      {movies !== null && movies.length !== 0 && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-10">
-          {movies.map((item, index) => (
-            <MovieCard movie={item} key={index} />
-          ))}
-        </div>
-      )}
+      {!loading && !movies && <p>No movies.</p>}
+      {!loading && movies && <MovieGrid movies={movies} />}
     </>
   );
 };

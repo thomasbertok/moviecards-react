@@ -12,7 +12,7 @@
     font-size: 1rem;
     font-weight: 300;
     line-height: 170%;
-    @apply text-light;
+    @apply text-sand-300;
     background-image: radial-gradient(farthest-corner at 0% 100%, #1b2834 10%, #3e5c71 100%);
     background-attachment: fixed;
   }
@@ -33,7 +33,7 @@
   h5,
   h6 {
     font-weight: 100;
-    @apply text-light-100;
+    @apply text-sand-100;
     line-height: 1.25;
     margin-bottom: 2rem;
     letter-spacing: -0.01em;
@@ -72,21 +72,20 @@
   }
 
   .button,
-  button,
-  button[type="button"],
-  button[type="submit"],
-  button[type="reset"] {
-    @apply bg-primary text-light font-bold py-3 px-6 rounded-md outline-none;
+  button {
+    cursor: pointer;
+    transition: background-color 0.1s ease-in-out;
+    @apply bg-blue-800 text-sand-300 font-medium py-4 px-6 rounded-none outline-none leading-none;
   }
 
   .button:hover:not([disabled]),
   button:hover:not([disabled]),
   button:focus:not([disabled]) {
-    /* @apply bg-primary-600 drop-shadow-lg; */
+    @apply bg-blue-700;
   }
 
   .button-primary {
-    @apply bg-primary text-light;
+    @apply bg-primary;
   }
 
   .button-primary:not([disabled]):hover {
@@ -94,20 +93,20 @@
   }
 
   .button-secondary {
-    @apply bg-secondary text-light;
+    @apply bg-secondary;
   }
 
   .button-secondary:hover {
-    @apply bg-secondary-600 text-light;
+    @apply bg-secondary-600 text-sand;
   }
 
   .button.disabled,
   button:disabled {
-    @apply text-dark-400 bg-dark-600;
+    @apply text-blue-400 bg-blue-600;
   }
 
   .button-icon {
-    @apply p-2 rounded-full;
+    @apply p-0 rounded-full flex items-center justify-center aspect-square;
   }
 
   label {

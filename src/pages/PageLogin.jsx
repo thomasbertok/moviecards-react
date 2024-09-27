@@ -118,7 +118,8 @@ const PageLogin = () => {
             <div className="mb-4">
               <button
                 className={
-                  "button flex items-center justify-center w-full" + (loading ? " btn-loading" : " btn-normal")
+                  "button button-primary flex items-center justify-center w-full" +
+                  (loading ? " btn-loading" : " btn-normal")
                 }
                 disabled={canSubmit ? "" : "disabled"}
                 type="submit">

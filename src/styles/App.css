@@ -60,7 +60,7 @@ MARK: Card
 }
 
 .search-result-card .info {
-  @apply bg-dark/90 w-full h-full p-4;
+  @apply bg-blue/90 w-full h-full p-4;
 }
 
 .search-result-card:hover .info {

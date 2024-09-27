@@ -80,8 +80,8 @@ const Header = () => {
             {user.dispayName === null ? user.email : user.displayName}
           </NavLink>
 
-          <button className="button button-icon" title="Sign Out" onClick={handleLogout}>
-            <MdLogout />
+          <button className="button-icon w-[40px] h-[40px]" title="Sign Out" onClick={handleLogout}>
+            <MdLogout size="18" />
           </button>
         </div>
       </div>
