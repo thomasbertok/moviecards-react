@@ -1,48 +1,12 @@
-import { Route, Routes, BrowserRouter } from "react-router-dom";
-import { AuthProvider } from "@/context/auth/AuthProvider";
-import ProtectedRoute from "@/context/auth/ProtectedRoute";
-
-import PageHome from "./pages/PageHome";
-import Page404 from "./pages/Page404";
-import PageLogin from "./pages/PageLogin";
-import PageProfile from "./pages/PageProfile";
-import PageRegister from "./pages/PageRegister";
+import { AuthProvider } from "./context/auth/AuthProvider";
+import { RouterProvider } from "react-router-dom";
+import router from "./router";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <PageHome />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/home"
-            element={
-              <ProtectedRoute>
-                <PageHome />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <PageProfile />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/login" element={<PageLogin />} />
-          <Route path="/register" element={<PageRegister />} />
-          <Route path="*" element={<Page404 />} />
-        </Routes>
-      </AuthProvider>
-    </BrowserRouter>
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   );
 };
 

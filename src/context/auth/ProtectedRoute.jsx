@@ -1,18 +1,26 @@
-import { useContext } from "react";
-import { Navigate } from "react-router-dom";
-import AuthContext from "./AuthContext";
+import { useState, useEffect } from "react";
+import { Navigate, Outlet } from "react-router-dom";
+import PageLoader from "@/components/PageLoader";
+import { auth } from "@/firebase";
 
-const ProtectedRoute = ({ children }) => {
-  // get user context
-  const user = useContext(AuthContext);
-  // console.log(">>> Protected Route. User: ", user);
-  // if user object user is empty, go to login page
-  if (user === null) {
-    return <Navigate to="/login" />;
-  } else {
-    // if user is logged in, render the child component
-    return children;
+const ProtectedRoute = () => {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+      setLoading(false);
+    });
+
+    return () => unsubscribe(); // Cleanup the listener on unmount
+  }, []);
+
+  if (loading) {
+    return <PageLoader text="Loading..." />; // Optional loading spinner or message
   }
+
+  return user ? <Outlet /> : <Navigate to="/login" />;
 };
 
 export default ProtectedRoute;

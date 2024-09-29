@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import AuthContext from "@/context/auth/AuthContext";
 import MovieGrid from "@/components/MovieGrid";
 import useMovieStore from "@/store/movie-store";
-import LoadingIcons from "react-loading-icons";
+import PageLoader from "@/components/PageLoader";
 
 const MoviesList = () => {
   // get user context
@@ -23,12 +23,7 @@ const MoviesList = () => {
 
   return (
     <>
-      {loading && (
-        <div className="flex flex-col h-full items-center justify-center gap-4">
-          <LoadingIcons.Oval strokeWidth={4} height={"4em"} width={"4em"} />
-          <div>Loading movies...</div>
-        </div>
-      )}
+      {loading && <PageLoader text="Loading movies..." />}
       {!loading && !movies && <p>No movies.</p>}
       {!loading && movies && <MovieGrid movies={movies} />}
     </>

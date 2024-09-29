@@ -47,3 +47,29 @@ export const passwordValidator = (pass) => {
   }
   return true;
 };
+
+/**
+ * Error messages in human readable form
+ */
+const errorStringPairs = [
+  ["Firebase: Error (auth/invalid-email)", "Invalid email"],
+  ["Firebase: Error (auth/wrong-password).", "Wrong Password"],
+  ["Firebase: Error (auth/user-not-found).", "User not found"],
+  ["Firebase: Error (auth/email-already-in-use).", "Naah, man!"],
+  ["Firebase: Password should be at least 6 characters (auth/weak-password).", "Weak password"],
+];
+
+export const getReadableErrorMessage = (error) => {
+  const pair = errorStringPairs.find((pair) => pair[0] === error);
+  if (pair) {
+    return pair[1];
+  } else {
+    return `Error: ${error}`;
+  }
+};
+
+export const beautifyJSON = (json) => {
+  let sttr = JSON.stringify(json, null, "\t");
+  sttr = JSON.stringify(json, null, 2);
+  return sttr;
+};

@@ -8,9 +8,18 @@ export const fetchOMDB = async (queryString) => {
   const query = `${omdb.api_url}?&apikey=${omdb.api_key}&plot=short&type=movie&s=${queryString}`;
   const response = await fetch(query);
   if (!response.ok) {
-    throw new Error("response error", response.status);
+    throw new Error("Response error", response.status);
   }
   const movies = await response.json();
-  console.log(movies);
   return movies;
+};
+
+export const fetchOMDBById = async (id) => {
+  const query = `${omdb.api_url}?&apikey=${omdb.api_key}&i=${id}&plot=full`;
+  const response = await fetch(query);
+  if (!response.ok) {
+    throw new Error("OMDB response error", response.status);
+  }
+  const movie = await response.json();
+  return movie;
 };

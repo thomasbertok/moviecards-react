@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import useModalStore from "@/store/modal-store";
 import imdbLogo from "@/assets/imdb-logo.png";
 import { MdClose } from "react-icons/md";
+import { useNavigate, Link } from "react-router-dom";
 
 const MovieModal = () => {
   /**
@@ -14,7 +15,14 @@ const MovieModal = () => {
    */
   const dialogRef = useRef();
 
+  /**
+   * navigate
+   */
+  const navigate = useNavigate();
+
   useEffect(() => {
+    //console.log("modal content", content);
+
     /**
      * catch Esc key and close the modal
      * @param {*} event
@@ -74,12 +82,9 @@ const MovieModal = () => {
           </div>
           <div className="movie-dialog-details">
             <h4 className="mb-0">
-              <a
-                href={`https://imdb.com/title/${content.imdbID}`}
-                className="text-sand-200 hover:text-light-600"
-                title="View on IMDB">
+              <Link to={`/movies/${content.imdbID}`} className="text-sand-200 hover:text-sand-600" title="View on IMDB">
                 {content.Title}
-              </a>
+              </Link>
             </h4>
 
             <div className="flex gap-1">

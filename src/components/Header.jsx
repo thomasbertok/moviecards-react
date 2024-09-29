@@ -68,13 +68,9 @@ const Header = () => {
 
         <div className="flex-none flex items-center">
           <NavLink to="/profile" className="mr-2 flex items-center">
-            {user.email}
-          </NavLink>
-
-          <NavLink to="/profile" className="mr-2 flex items-center">
             {user.photoURL !== null && (
-              <div className="rounded-full w-8 bg-light mr-2">
-                <img src={user.photoURL} alt="" />
+              <div className="rounded-full w-10 bg-blue mr-2">
+                <img src={user.photoURL} alt="user" />
               </div>
             )}
             {user.dispayName === null ? user.email : user.displayName}

@@ -41,7 +41,7 @@ export const firebaseSignIn = async ({ email, password }) => {
 };
 
 // signup
-export const firebaseSignUp = async (email, password, username) => {
+export const firebaseSignUp = async ({ email, password, username }) => {
   try {
     const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredentials.user;
@@ -54,7 +54,7 @@ export const firebaseSignUp = async (email, password, username) => {
       console.log(">>> Firebase: Successful signUp. \nUser data: ", user);
       return true;
     } else {
-      console.error("!!! User registration error");
+      console.error("!!! User signup error");
     }
   } catch (error) {
     console.error(error.message);
@@ -64,7 +64,7 @@ export const firebaseSignUp = async (email, password, username) => {
 
 // sign out with firebase
 export const firebaseSignOut = async () => {
-  console.log(">>> Firebase Sign Out...");
+  console.log(">>> Firebase | Signing out...");
 
   try {
     // firebase sign out
@@ -74,8 +74,6 @@ export const firebaseSignOut = async () => {
 
     // empty local storage
     localStorage.removeItem("moviecards-movies-database");
-    // empty user context
-
     return true;
   } catch (error) {
     console.error(error.message);

@@ -1,15 +1,13 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, redirect } from "react-router-dom";
 import AuthContext from "@/context/auth/AuthContext";
 import useMovieStore from "@/store/movie-store";
+import router from "@/router";
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const navigate = useNavigate();
-
   const { resetMovies } = useMovieStore();
-
   const auth = getAuth();
 
   useEffect(() => {
@@ -18,9 +16,10 @@ export const AuthProvider = ({ children }) => {
         setUser(user);
         console.log(">>> AuthProvider | user is:", user.email);
       } else {
-        console.log(">>> AuthProvider | User logged out.");
+        console.log(">>> AuthProvider | User is logged out.");
         resetMovies();
-        navigate("/login", { replace: true });
+        setUser(null);
+        router.navigate("/login", { replace: true });
       }
     });
   }, []);

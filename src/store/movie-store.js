@@ -23,7 +23,7 @@ const useMovieStore = create((set) => ({
       const moviesArray = Object.values(fetchedData.movies).slice().reverse();
       console.log(">>> Store | movies fetched.", moviesArray);
       set({ movies: fetchedData ? moviesArray : [] });
-      //localStorage.setItem("moviecards-movies-database", JSON.stringify(moviesArray));
+      localStorage.setItem("moviecards-movies-database", JSON.stringify(moviesArray));
     });
   },
 
