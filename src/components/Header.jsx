@@ -1,18 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
-import { NavLink, Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import AuthContext from "@/context/auth/AuthContext";
-import { firebaseSignOut } from "../firebase";
+import { firebaseSignOut } from "@/firebase";
 
-import logo from "../assets/logo.png";
+import logo from "@/assets/logo.png";
 import { MdLogout } from "react-icons/md";
-import MovieSearch from "../modules/MovieSearch";
-import MovieSearchResults from "../modules/MovieSearchResults";
-
-import { Dropdown } from "flowbite-react";
+import MovieSearch from "@/modules/MovieSearch";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [searchResults, setSearchResults] = useState([]);
   const { user } = useContext(AuthContext);
 
   // log out with firebase
@@ -20,18 +16,9 @@ const Header = () => {
     await firebaseSignOut();
   };
 
-  useEffect(() => {
-    //console.log(">>> search res in header ", searchResults);
-  }, [searchResults]);
-
-  const selectMovie = (id) => {
-    console.log(">>> selected id: ", id);
-    setSearchResults([]);
-  };
-
   /**
-   * handle scroll
-   *
+   * add special class to the sticky header
+   * on scroll event to give a background
    */
   useEffect(() => {
     const handleScroll = () => {
@@ -41,31 +28,20 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  if (!user) {
-    return null;
-  }
-
   return (
-    <header className={`header sticky top-0 z-50 ${isScrolled ? "scrolled" : ""}`}>
+    <header className={`header sticky top-0 z-50 ${isScrolled ? "scrolled" : ""} `}>
       <div className="flex items-center flex-wrap p-6 ">
+        {/*  */}
         <NavLink to="/" className="mr-6 flex-none">
           <img className="logo" src={logo} alt="Click to homepage | Movie Cards 2.0" />
         </NavLink>
 
+        {/* Movie Search */}
         <div className="flex-auto">
-          <MovieSearch setResult={setSearchResults} />
+          <MovieSearch />
         </div>
 
-        {/* <div>
-          <Dropdown size="sm" label="Dropdown button">
-            <Dropdown.Item>Dashboard</Dropdown.Item>
-            <Dropdown.Item>Settings</Dropdown.Item>
-            <Dropdown.Item>Earnings</Dropdown.Item>
-            <Dropdown.Divider />
-            <Dropdown.Item icon={MdLogout}>Logout</Dropdown.Item>
-          </Dropdown>
-        </div> */}
-
+        {/* User Profile */}
         <div className="flex-none flex items-center">
           <NavLink to="/profile" className="mr-2 flex items-center">
             {user.photoURL !== null && (
@@ -76,14 +52,11 @@ const Header = () => {
             {user.dispayName === null ? user.email : user.displayName}
           </NavLink>
 
+          {/* Log out */}
           <button className="button-icon w-[40px] h-[40px]" title="Sign Out" onClick={handleLogout}>
             <MdLogout size="18" />
           </button>
         </div>
-      </div>
-
-      <div className="movie-search-results">
-        <MovieSearchResults list={searchResults} select={selectMovie} />
       </div>
     </header>
   );

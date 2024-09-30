@@ -1,19 +1,18 @@
 import React, { useState } from "react";
 import { MdNotificationImportant, MdOutlineSearch } from "react-icons/md";
-import { fetchOMDB } from "@/services/fetchOMDB";
+import { fetchOMDB } from "@/services/omdb";
+import { omdb } from "@/services/omdb";
+import useMovieStore from "@/store/movie-store";
+import MovieSearchResults from "@/components/MovieSearchResults";
 
-const MovieSearch = ({ setResult }) => {
+const MovieSearch = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searching, setSearching] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
-  const [message, setMessage] = useState("");
-  const [resultsBlockVisible, setResultsBlockVisible] = useState(false);
+  const [totalResults, setTotalResults] = useState(0);
 
-  // OMDB keys
-  const omdb = {
-    api_url: import.meta.env.VITE_OMDB_API_URL,
-    api_key: import.meta.env.VITE_OMDB_API_KEY,
-  };
+  const [resultsBlockVisible, setResultsBlockVisible] = useState(false);
+  const [message, setMessage] = useState("");
 
   // when focusing the input
   const handleFocus = (ev) => {
@@ -21,15 +20,14 @@ const MovieSearch = ({ setResult }) => {
     setMessage("");
   };
 
-  // changing input content
-  const handleChangeSearchValue = (ev) => {
+  // while changing input content
+  // I search for the movie title in the localStorage
+  const handleSearchOnChange = (ev) => {
     setSearchQuery(ev.target.value);
   };
 
-  // hit enter with some nice title text
-  const handleSearch = (ev) => {
-    //console.log(ev.target.value)
-
+  // check for hitting Enter or ESC
+  const handleSearchKeyUp = (ev) => {
     // when i press enter, the fetch is triggered
     // not to bother omdb too much...
     if (ev.key === "Enter" && ev.target.value.length >= 2) {
@@ -40,56 +38,33 @@ const MovieSearch = ({ setResult }) => {
     if (ev.key === "Escape") {
       // null the search string
       setSearchQuery("");
-      // setResultsBlockVisible(false)
+      setResultsBlockVisible(false);
     }
   };
 
-  // const fetchOMDB = async (queryString) => {
-  //   setSearching(true);
-  //   setMessage("");
-
-  //   const query = `${omdb.api_url}?&apikey=${omdb.api_key}&plot=short&type=movie&s=${queryString}`;
-  //   const response = await fetch(query);
-
-  //   if (response.ok) {
-  //     const movies = await response.json();
-
-  //     if (movies.Response) {
-  //       // there are movies in the result
-  //       setSearchResult(movies.Search);
-  //       props.setResult(movies.Search);
-  //       setSearching(false);
-
-  //       // show the results
-  //       setResultsBlockVisible(true);
-  //     } else {
-  //       // no movies, result correct
-  //       setSearching(false);
-  //       setSearchQuery("");
-  //       setSearchResult([]);
-  //       setMessage("No results.");
-  //     }
-  //   } else {
-  //     throw new Error("response error");
-  //     console.error("OMDB says: Too bad! You gotta die!");
-  //     setSearching(false);
-  //   }
-  // };
+  const handleSelectMovie = (imdbID) => {
+    console.log("handleSelectMovie: ", imdbID);
+  };
 
   const fetchSearchedOMDBMovies = async (query) => {
-    // setSearching(true);
-    // setMessage("");
+    setSearching(true);
+    setMessage("");
+    setSearchResult([]);
+
+    console.log("fetchSearchedOMDBMovies: ", query);
+
     const result = await fetchOMDB(query);
-    // if (result.Response === "True") {
-    //   setSearchResult(result.Search);
-    //   setResult(result.Search);
-    //   setSearching(false);
-    // } else {
-    //   setSearching(false);
-    //   setSearchQuery("");
-    //   setSearchResult([]);
-    //   setMessage("No results.");
-    // }
+
+    if (result.Response === "True") {
+      setSearchResult(result.Search);
+      setTotalResults(result.totalResults);
+      //console.log("Result:", result);
+    } else {
+      setSearchQuery("");
+      setMessage(result.Error || "No results.");
+    }
+
+    setSearching(false);
   };
 
   return (
@@ -103,8 +78,8 @@ const MovieSearch = ({ setResult }) => {
           id="search-input"
           value={searchQuery}
           onFocus={handleFocus}
-          onChange={handleChangeSearchValue}
-          onKeyUp={handleSearch}
+          onChange={handleSearchOnChange}
+          onKeyUp={handleSearchKeyUp}
           disabled={searching ? "disabled" : ""}
           tabIndex={1}
         />
@@ -113,17 +88,16 @@ const MovieSearch = ({ setResult }) => {
         </button>
       </div>
 
-      {/* <input
-        className="search-input-input disabled:bg-blue rounded-[20px] max-w-[640px] w-full"
-        type="text"
-        name="search-input"
-        id="search-input"
-        value={searchQuery}
-        onFocus={handleFocus}
-        onChange={handleChangeSearchValue}
-        onKeyUp={handleSearch}
-        disabled={searching ? "disabled" : ""}
-      /> */}
+      {searchResult && searchResult.length > 0 && (
+        <div className="search-results fixed z-50 w-full h-full left-0 top-[80px] bg-blue-900/90 backdrop-blur-md">
+          <MovieSearchResults
+            list={searchResult}
+            query={searchQuery}
+            totalResults={totalResults}
+            select={handleSelectMovie}
+          />
+        </div>
+      )}
     </div>
   );
 };
