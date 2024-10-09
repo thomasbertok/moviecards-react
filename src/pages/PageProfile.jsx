@@ -48,16 +48,15 @@ function PageProfile() {
         {!loading && !user && <p>No user.</p>}
 
         {!loading && user && (
-          <div className="bg-blue-800 p-4 overflow-x-auto">
-            <p>
-              <strong>Username:</strong> {user.displayName || "none"}
-            </p>
-            <p>
-              <strong>Email account:</strong> {user.email || "none"}
-            </p>
-            <p>
-              <strong>Profile image:</strong> {user.photoURL || "none"}
-            </p>
+          <div className="bg-blue-800 p-4 flex gap-4">
+            <div className="flex flex-col gap-2">
+              <img src={user.photoURL} alt={user.displayName} className="w-32 h-32 rounded-full bg-blue-900" />
+            </div>
+            <div className="flex flex-col gap-2 justify-center">
+              <h2 className="text-3xl font-medium leading-none mb-0">{user.displayName || "none"}</h2>
+              <strong>{user.email || "none"}</strong>
+            </div>
+
             <pre className="text-md font-mono">{sttr}</pre>
           </div>
         )}

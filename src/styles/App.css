@@ -30,26 +30,25 @@ MARK: Card
 */
 
 .card-poster {
+  position: relative;
   aspect-ratio: 9/14;
+  background-color: theme("colors.blue.800");
   background-size: cover;
   background-position: center;
-  box-shadow: 0 25px 45px -35px rgba(0, 0, 0, 1);
+  z-index: auto;
 }
 
-.card-body-year {
-  display: block;
-}
-
-.card-body-genre {
-  display: none;
-}
-
-.card:hover .card-body-year {
-  display: none;
-}
-
-.card:hover .card-body-genre {
-  display: block;
+.card-poster:hover:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  aspect-ratio: 9/14;
+  width: 100%;
+  background: inherit;
+  filter: blur(12px) saturate(1.75);
+  opacity: 0.75;
 }
 
 .search-result-card {
@@ -63,9 +62,9 @@ MARK: Card
   @apply bg-blue/90 w-full h-full p-4;
 }
 
-.search-result-card:hover .info {
+/* .search-result-card:hover .info {
   display: block;
-}
+} */
 
 .search-input-input:disabled {
 }

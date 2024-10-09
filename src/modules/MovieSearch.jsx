@@ -42,10 +42,19 @@ const MovieSearch = () => {
     }
   };
 
+  /**
+   * clicking on a movie in the search results list
+   * @param {*} imdbID 
+   */
   const handleSelectMovie = (imdbID) => {
     console.log("handleSelectMovie: ", imdbID);
   };
 
+  /**
+   * get the movies from OMDB
+   * https://www.omdbapi.com
+   * @param {*} query 
+   */
   const fetchSearchedOMDBMovies = async (query) => {
     setSearching(true);
     setMessage("");
